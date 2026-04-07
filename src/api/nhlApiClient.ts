@@ -70,20 +70,23 @@ export interface GetPlayByPlayResponseFromApi {
 }
 
 function buildTargetUrl(getProps: getProps): string {
+  const base = getProps.base.endsWith("/") ? getProps.base : `${getProps.base}/`;
+  const path = getProps.path.startsWith("/") ? getProps.path.slice(1) : getProps.path;
+
   const queryString = getProps.queryParams
     ? new URLSearchParams(
         Object.entries(getProps.queryParams).map(([key, value]) => [key, String(value)]),
       ).toString()
     : "";
 
-  const isAbsoluteBase = getProps.base.startsWith("http://") || getProps.base.startsWith("https://");
+  const isAbsoluteBase = base.startsWith("http://") || base.startsWith("https://");
   if (isAbsoluteBase) {
-    const targetUrl = new URL(getProps.path, getProps.base);
+    const targetUrl = new URL(path, base);
     if (queryString) targetUrl.search = queryString;
     return targetUrl.toString();
   }
 
-  return `${getProps.base}${getProps.path}${queryString ? `?${queryString}` : ""}`;
+  return `${base}${path}${queryString ? `?${queryString}` : ""}`;
 }
 
 async function get<T>(getProps: getProps): Promise<T> {
