@@ -69,16 +69,32 @@ export interface GetPlayByPlayResponseFromApi {
   plays: PlayFromApi[];
 }
 
-async function get<T>(getProps: getProps): Promise<T> {
-  const url = new URL(getProps.base + getProps.path, window.location.origin);
-  if (getProps.queryParams) {
-    for (const [key, value] of Object.entries(getProps.queryParams)) {
-      url.searchParams.set(key, String(value));
-    }
+function buildTargetUrl(getProps: getProps): string {
+  const queryString = getProps.queryParams
+    ? new URLSearchParams(
+        Object.entries(getProps.queryParams).map(([key, value]) => [key, String(value)]),
+      ).toString()
+    : "";
+
+  const isAbsoluteBase = getProps.base.startsWith("http://") || getProps.base.startsWith("https://");
+  if (isAbsoluteBase) {
+    const targetUrl = new URL(getProps.path, getProps.base);
+    if (queryString) targetUrl.search = queryString;
+    return targetUrl.toString();
   }
-  const response = await fetch(url);
+
+  return `${getProps.base}${getProps.path}${queryString ? `?${queryString}` : ""}`;
+}
+
+async function get<T>(getProps: getProps): Promise<T> {
+  const targetUrl = buildTargetUrl(getProps);
+  const fetchUrl = import.meta.env.DEV
+    ? targetUrl
+    : `/api/proxy?url=${encodeURIComponent(targetUrl)}`;
+
+  const response = await fetch(fetchUrl);
   if (!response.ok) {
-    throw new Error(`NHL API error! status: ${response.status}: ${url.pathname}`);
+    throw new Error(`NHL API error! status: ${response.status}: ${getProps.path}`);
   }
   const data = await response.json();
   return data as T;

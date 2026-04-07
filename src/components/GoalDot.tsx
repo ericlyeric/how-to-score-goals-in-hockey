@@ -39,7 +39,6 @@ export function GoalDot({ goal }: GoalDotProps) {
 
   const { top, left } = nhlToPercent(goal.x, goal.y);
 
-  console.log(goal);
   return (
     <div
       title={`${goal.shotType ?? "unknown"}`}

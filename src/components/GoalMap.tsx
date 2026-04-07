@@ -32,7 +32,6 @@ export function GoalMap({
     error: goalLocationError,
   } = useGetGoalLocations({ gameIds, playerId, shotTypes });
 
-  console.log(goalLocations);
   const loading = gameLogLoading || goalLocationsLoading;
   const error = gameLogError || goalLocationError;
 

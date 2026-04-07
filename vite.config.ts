@@ -5,7 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
-  console.log(env)
   return {
     plugins: [
       react(),
@@ -14,12 +13,12 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/nhl-stats": {
-          target: env.VITE_NHL_STATS,
+          target: env.VITE_NHL_STATS_PROXY,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/nhl-stats/, ""),
         },
         "/nhl-web": {
-          target: env.VITE_NHL_WEB,
+          target: env.VITE_NHL_WEB_PROXY,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/nhl-web/, ""),
         },

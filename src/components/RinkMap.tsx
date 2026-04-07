@@ -15,7 +15,6 @@ export function RinkMap() {
 
   const handlePlayerSelect = useCallback((player: Player) => {
     setSelectedPlayer(player);
-    console.log("Selected player:", player);
   }, []);
 
   return (
