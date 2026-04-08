@@ -1,6 +1,7 @@
 import type { GetPlayersRequestFromApi } from "../api/nhlApiClient";
 import { useGetPlayers } from "../hooks/useGetPlayers";
 import type { Player } from "../utils/types";
+import { Caret } from "./Select";
 
 interface PlayerDropdownProps extends GetPlayersRequestFromApi {
   onPlayerSelect: (player: Player) => void;
@@ -22,33 +23,50 @@ export function PlayerDropdown({
 
   if (loading)
     return (
-      <select disabled>
-        <option>Loading players…</option>
-      </select>
+      <div className="group relative">
+        <select
+          disabled
+          className="w-full px-3 py-2 pr-8 appearance-none border border-border rounded-md bg-muted text-muted-foreground"
+        >
+          <option>Loading players…</option>
+        </select>
+        <Caret />
+      </div>
     );
   if (error)
     return (
-      <select disabled>
-        <option>{error}</option>
-      </select>
+      <div className="group relative">
+        <select
+          disabled
+          className="w-full px-3 py-2 pr-8 appearance-none border border-border rounded-md bg-muted text-muted-foreground"
+        >
+          <option>{error}</option>
+        </select>
+        <Caret />
+      </div>
     );
 
   return (
-    <select
-      defaultValue=""
-      onChange={(e) => {
-        const player = players.find((p) => p.id === Number(e.target.value));
-        if (player) onPlayerSelect(player);
-      }}
-    >
-      <option value="" disabled>
-        Select a player
-      </option>
-      {players.map((p) => (
-        <option key={p.id} value={p.id}>
-          {p.name} - {p.position} - {p.goals}G
+    <div className="group relative">
+      <select
+        defaultValue=""
+        onChange={(e) => {
+          const player = players.find((p) => p.id === Number(e.target.value));
+          if (player) onPlayerSelect(player);
+        }}
+        className="w-full px-3 py-2 pr-8 appearance-none border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+      >
+        <option value="" disabled>
+          Select a player
         </option>
-      ))}
-    </select>
+        {players.map((p) => (
+          <option key={p.id} value={p.id}>
+            {p.name} - {p.position} - {p.hand === "L" ? "LH" : "RH"} - {p.goals}
+            G
+          </option>
+        ))}
+      </select>
+      <Caret />
+    </div>
   );
 }

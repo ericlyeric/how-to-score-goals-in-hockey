@@ -42,18 +42,10 @@ export function GoalDot({ goal }: GoalDotProps) {
   return (
     <div
       title={`${goal.shotType ?? "unknown"}`}
+      className="absolute w-6 h-6 sm:w-12 sm:h-12 bg-red-500 border-2 border-white rounded-full opacity-50 cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
       style={{
-        position: "absolute",
         top: `${top}%`,
         left: `${left}%`,
-        width: 32,
-        height: 32,
-        borderRadius: "50%",
-        background: "#E24B4A",
-        border: "1.5px solid white",
-        transform: "translate(-50%, -50%)",
-        opacity: 0.5, // low opacity = stacking shows density
-        cursor: "pointer",
       }}
     />
   );

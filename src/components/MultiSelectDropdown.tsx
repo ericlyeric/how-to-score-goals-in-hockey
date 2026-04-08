@@ -1,12 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { ShotType } from "../utils/types";
-
-const SHOT_OPTIONS: { value: ShotType; label: string }[] = [
-  { value: "wrist", label: "Wrist" },
-  { value: "snap", label: "Snap" },
-  { value: "slap", label: "Slap" },
-  { value: "backhand", label: "Backhand" },
-];
+import { SHOT_OPTIONS } from "../utils/options";
+import { Caret } from "./Select";
 
 export function MultiSelectDropdown({
   selected,
@@ -48,66 +43,30 @@ export function MultiSelectDropdown({
             .join(", ");
 
   return (
-    <div ref={ref} style={{ position: "relative", display: "inline-block" }}>
+    <div ref={ref} className="relative inline-block w-full">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          padding: "0.375rem 0.75rem",
-          border: "1px solid #ccc",
-          borderRadius: "6px",
-          background: "white",
-          cursor: "pointer",
-          minWidth: "160px",
-          justifyContent: "space-between",
-        }}
+        className="relative w-full px-3 py-2 min-h-10 border border-border rounded-md bg-background text-foreground text-left focus:outline-none focus:ring-2 focus:ring-primary"
       >
-        <span
-          style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
+        <span className="block overflow-hidden text-ellipsis whitespace-nowrap pr-8">
           {label}
         </span>
-        <span>{open ? "▴" : "▾"}</span>
+        <Caret />
       </button>
 
       {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: "calc(100% + 4px)",
-            left: 0,
-            background: "white",
-            border: "1px solid #ccc",
-            borderRadius: "6px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            zIndex: 100,
-            minWidth: "160px",
-            padding: "0.25rem 0",
-          }}
-        >
+        <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-md shadow-lg z-10 w-full py-1">
           {SHOT_OPTIONS.map(({ value, label }) => (
             <label
               key={value}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.4rem 0.75rem",
-                cursor: "pointer",
-                userSelect: "none",
-              }}
+              className="flex items-center gap-2 px-3 py-1 cursor-pointer select-none hover:bg-muted"
             >
               <input
                 type="checkbox"
                 checked={selected.has(value)}
                 onChange={() => toggle(value)}
+                className="rounded border-border"
               />
               {label}
             </label>

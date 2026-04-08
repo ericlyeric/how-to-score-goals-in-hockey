@@ -38,23 +38,6 @@
 
 /*
   =========================================
-  DARK MODE — override theme tokens
-  =========================================
-*/
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: oklch(10% 0 0);
-    --color-foreground: oklch(98% 0 0);
-    --color-muted: oklch(16% 0.005 250);
-    --color-muted-foreground: oklch(60% 0.01 250);
-    --color-border: oklch(22% 0.005 250);
-    --color-secondary: oklch(18% 0.01 250);
-    --color-secondary-foreground: oklch(90% 0.01 250);
-  }
-} */
-
-/*
-  =========================================
   BASE LAYER — global resets & defaults
   =========================================
 */

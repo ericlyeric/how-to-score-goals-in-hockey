@@ -121,7 +121,7 @@ export const nhlApi = {
         cayenneExp: query,
         sort: 'goals',
         dir: 'desc',
-        limit: 5,
+        limit: 10,
       },
     });
     return transformGetPlayersResponse(response);
